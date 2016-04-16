@@ -35,28 +35,20 @@ namespace RSA2048Sharp
 
         public static string Encrypt(string PublicKey, string plain)
         {
-            byte[] encrypted;
-
             using (RSACryptoServiceProvider RSA2048 = new RSACryptoServiceProvider(2048))
             {
                 RSA2048.FromXmlString(PublicKey);
-                encrypted = RSA2048.Encrypt(Encoding.UTF8.GetBytes(plain), false);
+                return Convert.ToBase64String(RSA2048.Encrypt(Encoding.UTF8.GetBytes(plain), false));
             }
-
-            return Convert.ToBase64String(encrypted);
         }
 
         public static string Decrypt(string PrivateKey, string cipher)
         {
-            byte[] decrypted;
-
             using (RSACryptoServiceProvider RSA2048 = new RSACryptoServiceProvider(2048))
             {
                 RSA2048.FromXmlString(PrivateKey);
-                decrypted = RSA2048.Decrypt(Convert.FromBase64String(cipher), false);
+                return Encoding.UTF8.GetString(RSA2048.Decrypt(Convert.FromBase64String(cipher), false));
             }
-
-            return Encoding.UTF8.GetString(decrypted);
         }
     }
 }
